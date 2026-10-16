@@ -1,20 +1,36 @@
+
+import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import ListaTareas from './screens/ListaTareas';
+import NuevaTarea from './screens/NuevaTarea';
 
 export default function App() {
+  const [pantalla, setPantalla] = useState('lista');
+
+  const [tareas, setTareas] = useState([]);
+
+  const guardarTarea = (tarea) => {
+    setTareas((anteriores) => [...anteriores, tarea]);
+    setPantalla('lista');
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <>
+      {pantalla === 'lista' ? (
+        <ListaTareas
+          tareas={tareas}
+          onNuevaTarea={() => setPantalla('nueva')}
+        />
+      ) : (
+        <NuevaTarea
+          onGuardar={guardarTarea}
+          onCancelar={() => setPantalla('lista')}
+        />
+      )}
+
       <StatusBar style="auto" />
-    </View>
+    </>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
