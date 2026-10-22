@@ -11,9 +11,10 @@ type Tarea = {
 type Props = {
   tareas: Tarea[];
   onNuevaTarea: () => void;
+  onVerDetalle: (tarea: Tarea) => void;
 };
 
-export default function ListaTareas({ tareas, onNuevaTarea }: Props) {
+export default function ListaTareas({ tareas, onNuevaTarea, onVerDetalle }: Props) {
 
   return (
     <View style={styles.container}>
@@ -25,10 +26,13 @@ export default function ListaTareas({ tareas, onNuevaTarea }: Props) {
         data={tareas}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View style={styles.tarea}>
+          <TouchableOpacity
+            style={styles.tarea}
+            onPress={() => onVerDetalle(item)}
+          >
             <Text style={styles.nombre}>{item.title}</Text>
             <Text>Estado: {item.status}</Text>
-          </View>
+          </TouchableOpacity>
         )}
         style={{ flex: 1 }}
       />
@@ -62,7 +66,7 @@ const styles = StyleSheet.create({
     padding: 15,
     marginTop: 12,
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: '#acabab',
     borderRadius: 8,
   },
 
@@ -76,7 +80,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  bottom: { 
+  bottom: {
     backgroundColor: '#2196F3',
     padding: 15,
     borderRadius: 10,
